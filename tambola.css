@@ -1,0 +1,23 @@
+body{
+    text-align: center;
+}
+
+table, th, td {
+    border: 2px solid black;
+    font-size: 24px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+td{
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+@keyframes highlight {
+    from {background-color: white;}
+    to {background-color: greenyellow;}
+  }
