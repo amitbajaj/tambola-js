@@ -6,10 +6,14 @@
         <script type="text/javascript" src="tambola.js"></script>
     </head>
     <body onload='resetBoard()'>
-        <table id='board'></table><hr>
-        <button onclick='generateNumber()'>Pick Number</button>
-        <table id='last5nums'><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr></table>
+        <table id='board' class='board'></table><hr>
+        <button onclick='generateNumber()' id='btnPick'>Pick Number</button>
+        <table id='last5nums' class='board'><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr></table>
         <hr>
-        <button onclick='resetBoard()'>Reset Board</button>    
+        <input type='text' id='roomName' placeholder='Room Name....'>
+        <button onclick='createRoom()'>Create Room</button>
+        <button onclick='resetBoard()'>Reset Board</button>
+        <hr>
+        <label id='roomId'></label>
     </body>
 </html>

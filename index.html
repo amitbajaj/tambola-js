@@ -5,8 +5,12 @@
         <link rel="stylesheet" href="tambola.css"/>
         <script type="text/javascript" src="tambola.js"></script>
     </head>
-    <body>
+    <body onload='drawEmptyBoard()'>
+        <input type='text' id='roomId' placeholder='Room Id....'><button onclick='subscibeToRoom()' id='btnjoin'>Join Room</button>
+        <hr><input type='text' id='sname' placeholder='Alias...'><input type='text' id='msg' placeholder='Message...'><button onclick='sendMessage()' id='btnsend'>Send Message</button>
+        <hr><table id='last5nums' class='board'><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr></table><hr>
         <button onclick='addTicket()'>Add Ticket</button>
-        <div id='tickets'></div>
+        <table style='border:0px;'><tr><td style='border:0px;vertical-align: top;'><table id='clientboard' class='board'></table><br><textarea disabled id='msgs'></textarea></td><td style='border:0.5px;vertical-align: top;'><div id='tickets'></div></td></tr></table>
+        <audio id='sayNum'></audio>
     </body>
 </html>
