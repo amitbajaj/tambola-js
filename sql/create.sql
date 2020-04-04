@@ -41,7 +41,8 @@ $$
 create procedure doCleanUp()
 begin
     delete from rooms where hour(timediff(now(),create_time))>5;
-    delete from numbers where room_id not in (select id from rooms); 
+    delete from numbers where room_id not in (select id from rooms);
+    delete from messages where room_id not in (select id from rooms);
 end
 $$
 drop table if exists messages
