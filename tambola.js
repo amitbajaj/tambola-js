@@ -73,7 +73,9 @@ function showTicket(tbl){
 }
 
 function putNumOnTicket(num){
-    iCol=Math.floor((num-1)/10);
+    bSuccess=false;
+    iCol=Math.floor((num)/10);
+    if(iCol==9) iCol=8;
     for(i=0;i<ticket.length;i++){
         if (!isRowComplete(ticket,i,5)){
             if(ticket[i][iCol]==-1){
@@ -104,20 +106,26 @@ function generateNumbersForTicket(){
     for(i=1;i<=90;i++){
         remainingNums[remainingNums.length]=i;
     }
-    var iIndex=0, iSeq=[], iNum=0, iPos=0;
+    var iIndex=0, iSeq=[], iNum=0, iPos=0, iDblCount=0;
     var iTktNums=0;
     for(i=0;i<9;i++) iSeq[i]=0;
-    while(iTktNums<=15){
+    var genNums=[];
+    while(iTktNums<15){
+
         iIndex=getRandom(0,remainingNums.length-1);
         iNum = remainingNums[iIndex];
+        iPos = Math.floor((iNum)/10);
+        if(iPos==9) iPos=8;
         if (putNumOnTicket(iNum)){
+            genNums.push(iNum);
             iTktNums++;
             remainingNums.splice(iIndex,1);
-            iPos = Math.floor((iNum-1)/10);
             iSeq[iPos]++;
-            if (iSeq[iPos]==3){
-                iMin=(iPos*10)+1;
-                iMax=(iPos+1)*10;
+            if (iSeq[iPos]==2){
+                iDblCount++;
+                iMin=(iPos*10);
+                iMax=((iPos+1)*10)-1;
+                if (iMax==89) iMax=90;
                 iLoop=0;
                 while(iLoop<remainingNums.length){
                     if(remainingNums[iLoop]>=iMin && remainingNums[iLoop]<=iMax){
@@ -126,9 +134,50 @@ function generateNumbersForTicket(){
                         iLoop++;
                     }
                 }
-            }            
+            }
+            if(iDblCount>4){
+                for(i=0;i<9;i++){
+                    if(iSeq[i]==1){
+                        iMin=(iPos*10);
+                        iMax=((iPos+1)*10)-1;
+                        if (iMax==89) iMax=90;
+                        iLoop=0;        
+                        while(iLoop<remainingNums.length){
+                            if(remainingNums[iLoop]>=iMin && remainingNums[iLoop]<=iMax){
+                                remainingNums.splice(iLoop,1);
+                            }else{
+                                iLoop++;
+                            }
+                        }        
+                    }
+                }
+            }
         }
-    }    
+    }
+    var swapCount=0;
+    for(c=0;c<ticket[0].length;c++){
+        do{
+            swapCount=0;
+            for(r=0;r<ticket.length-1;r++){
+                if(ticket[r+1][c]!=-1 && ticket[r][c]>ticket[r+1][c]){
+                    tempNum=ticket[r][c];
+                    ticket[r][c]=ticket[r+1][c];
+                    ticket[r+1][c]=tempNum;
+                    swapCount++;
+                }
+                if(r<ticket.length-2){
+                    if(ticket[r+1][c]==-1){
+                        if(ticket[r+2][c]!=-1 && ticket[r][c]>ticket[r+2][c]){
+                            tempNum=ticket[r][c];
+                            ticket[r][c]=ticket[r+2][c];
+                            ticket[r+2][c]=tempNum;
+                            swapCount++;
+                        }    
+                    }    
+                }
+            }    
+        }while(swapCount>0);
+    }
 }
 
 var boardNums;
@@ -226,6 +275,7 @@ function submitNumber(seq,num){
     };
     xhrSubmitNumber.send(frmData);
 }
+
 var roomId='';
 function createRoom(){
     if(isActive){
