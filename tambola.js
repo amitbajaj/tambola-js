@@ -1,3 +1,31 @@
+var tickets = [];
+function markNumbers(){
+    var tbl=document.getElementById('clientboard');
+    for(cr=0;cr<tbl.rows.length;cr++){
+        cbr=tbl.rows[cr];
+        for(cc=0;cc<cbr.cells.length;cc++){
+            cellNum = cbr.cells[cc].innerHTML;
+            if(cellNum!='&nbsp;'){
+                var tkts = document.getElementById('tickets').childNodes;
+                tkts.forEach( ptag=>{
+                    tkt = ptag.childNodes[0];
+                    for(r=0;r<tkt.rows.length;r++){
+                        row = tkt.rows[r];
+                        for(c=0;c<row.cells.length;c++){
+                            cell=row.cells[c];
+                            if(cell.innerHTML == cellNum){
+                                cell.style.backgroundColor = 'red';
+                            }
+                        };
+                    };
+                })    
+            }
+
+        }
+    }
+
+}
+
 function makeFixedSize(sNum){
     var sFinal = '  '+sNum;
     if(sFinal.length==4) sFinal = sFinal.substr(1);
@@ -93,6 +121,7 @@ var ticket;
 function addTicket(){
     var p = document.createElement('P');
     var tbl = document.createElement('TABLE');
+    tickets[tickets.length] = tbl;
     tbl.classList.add('board');
     generateNumbersForTicket();
     showTicket(tbl);
@@ -110,8 +139,9 @@ function generateNumbersForTicket(){
     var iTktNums=0;
     for(i=0;i<9;i++) iSeq[i]=0;
     var genNums=[];
-    while(iTktNums<15){
-
+    var loopCounter = 0;
+    while(iTktNums<15 && loopCounter<=90){
+        loopCounter++;
         iIndex=getRandom(0,remainingNums.length-1);
         iNum = remainingNums[iIndex];
         iPos = Math.floor((iNum)/10);
@@ -353,7 +383,7 @@ function subscibeToRoom(){
                                 }
                                 l5n.cells[4].innerHTML=iNum;
                             }
-                            if(Number.isInteger(parseInt(iNum))){
+                            if(Number.isInteger(parseInt(iNum)) && document.getElementById("enableCallout").checked){
                                 sayNum.src='media/'+iNum+'.mp3';
                                 sayNum.play();    
                             }else{
